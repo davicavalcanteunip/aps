@@ -4,11 +4,12 @@ import java.awt.event.*;
 public class Main extends WindowAdapter implements ActionListener {
     private Frame janela;
     private Panel painelTempo, painelBotoes, painelVoltas;
-    private Label txtMinutos, txtSegundos, txtMilesimos, txtNumeroVolta, txtTempoVolta, txtTempoTotal;
-    private TextField telaMinutos, telaSegundos, telaMilesimos, telaNumeroVolta, telaTempoVolta, telaTempoTotal;
+    private Label txtNumeroVolta, txtTempoVolta, txtTempoTotal, txtNumeroVolta2, txtTempoVolta2, txtTempoTotal2;
+    private TextField telaTempo, telaNumeroVolta, telaTempoVolta, telaTempoTotal, telaNumeroVolta2, telaTempoVolta2, telaTempoTotal2;
     private Button iniciar, volta, parar;
 
     private Cronometro cronometro;
+    private Dados dados;
 
     public Main() {
         janela = new Frame();
@@ -30,42 +31,19 @@ public class Main extends WindowAdapter implements ActionListener {
         painelBotoes.setLayout(new FlowLayout());
 
         painelVoltas = new Panel();
-        painelVoltas.setSize(440, 120);
-        painelVoltas.setLocation(30,165);
+        painelVoltas.setSize(480, 120);
+        painelVoltas.setLocation(10,165);
         painelVoltas.setBackground(new Color(20, 20, 20));
         painelVoltas.setLayout(null);
 
-        txtMinutos = new Label("Minutos:");
-        txtSegundos = new Label("Segundos:");
-        txtMilesimos = new Label("Milesimos:");
+        telaTempo = new TextField(10);
+        telaTempo.setBackground(new Color(0, 0, 0));
+        telaTempo.setBounds(188, 55, 105, 40);
+        telaTempo.setFont(new java.awt.Font("Arial", Font.PLAIN, 26));
+        telaTempo.setForeground(Color.RED);
+        telaTempo.setText("00:00.00");
 
-        txtMinutos.setBounds(45, 35, 120, 20);
-        txtMinutos.setForeground(Color.WHITE);
-        txtMinutos.setFont(new java.awt.Font("Arial", Font.ITALIC, 14));
-
-        txtSegundos.setBounds(185, 35, 120, 20);
-        txtSegundos.setForeground(Color.WHITE);
-        txtSegundos.setFont(new java.awt.Font("Arial", Font.ITALIC, 14));
-
-        txtMilesimos.setBounds(325, 35, 120, 20);
-        txtMilesimos.setForeground(Color.WHITE);
-        txtMilesimos.setFont(new java.awt.Font("Arial", Font.ITALIC, 14));
-
-        telaMinutos = new TextField(10);
-        telaSegundos = new TextField(10);
-        telaMilesimos = new TextField(10);
-
-        telaMinutos.setBounds(45, 55, 120, 20);
-        telaSegundos.setBounds(185, 55, 120, 20);
-        telaMilesimos.setBounds(325, 55, 120, 20);
-
-        painelTempo.add(txtMinutos);
-        painelTempo.add(txtMilesimos);
-        painelTempo.add(txtSegundos);
-
-        painelTempo.add(telaMinutos);
-        painelTempo.add(telaSegundos);
-        painelTempo.add(telaMilesimos);
+        painelTempo.add(telaTempo);
 
         parar = new Button("Parar");
         parar.addActionListener(this);
@@ -80,11 +58,11 @@ public class Main extends WindowAdapter implements ActionListener {
         painelBotoes.add(volta);
         painelBotoes.add(iniciar);
 
-        txtNumeroVolta = new Label("Número da Volta:");
+        txtNumeroVolta = new Label("Volta:");
         txtNumeroVolta.setForeground(Color.WHITE);
         txtNumeroVolta.setFont(new java.awt.Font("Arial", Font.ITALIC, 14));
 
-        txtTempoVolta = new Label("Tempo da Volta:");
+        txtTempoVolta = new Label("Tempo:");
         txtTempoVolta.setForeground(Color.WHITE);
         txtTempoVolta.setFont(new java.awt.Font("Arial", Font.ITALIC, 14));
 
@@ -92,17 +70,41 @@ public class Main extends WindowAdapter implements ActionListener {
         txtTempoTotal.setForeground(Color.WHITE);
         txtTempoTotal.setFont(new java.awt.Font("Arial", Font.ITALIC, 14));
 
+        txtNumeroVolta2 = new Label("Volta:");
+        txtNumeroVolta2.setForeground(Color.WHITE);
+        txtNumeroVolta2.setFont(new java.awt.Font("Arial", Font.ITALIC, 14));
+
+        txtTempoVolta2 = new Label("Tempo:");
+        txtTempoVolta2.setForeground(Color.WHITE);
+        txtTempoVolta2.setFont(new java.awt.Font("Arial", Font.ITALIC, 14));
+
+        txtTempoTotal2 = new Label("Tempo Total:");
+        txtTempoTotal2.setForeground(Color.WHITE);
+        txtTempoTotal2.setFont(new java.awt.Font("Arial", Font.ITALIC, 14));
+
         telaNumeroVolta = new TextField(10);
         telaTempoVolta = new TextField(10);
         telaTempoTotal = new TextField(10);
 
-        txtNumeroVolta.setBounds(20, 20, 120, 20);
-        txtTempoVolta.setBounds(160, 20, 120, 20);
-        txtTempoTotal.setBounds(300, 20, 120, 20);
+        txtNumeroVolta.setBounds(40, 20, 120, 20);
+        txtTempoVolta.setBounds(180, 20, 120, 20);
+        txtTempoTotal.setBounds(320, 20, 120, 20);
 
-        telaNumeroVolta.setBounds(20, 40, 120, 20);
-        telaTempoVolta.setBounds(160, 40, 120, 20);
-        telaTempoTotal.setBounds(300, 40, 120, 20);
+        telaNumeroVolta.setBounds(40, 40, 120, 20);
+        telaTempoVolta.setBounds(180, 40, 120, 20);
+        telaTempoTotal.setBounds(320, 40, 120, 20);
+
+        telaNumeroVolta2 = new TextField(10);
+        telaTempoVolta2 = new TextField(10);
+        telaTempoTotal2 = new TextField(10);
+
+        txtNumeroVolta2.setBounds(40, 70, 120, 20);
+        txtTempoVolta2.setBounds(180, 70, 120, 20);
+        txtTempoTotal2.setBounds(320, 70, 120, 20);
+
+        telaNumeroVolta2.setBounds(40, 90, 120, 20);
+        telaTempoVolta2.setBounds(180, 90, 120, 20);
+        telaTempoTotal2.setBounds(320, 90, 120, 20);
 
         painelVoltas.add(txtNumeroVolta);
         painelVoltas.add(txtTempoVolta);
@@ -111,22 +113,22 @@ public class Main extends WindowAdapter implements ActionListener {
         painelVoltas.add(telaNumeroVolta);
         painelVoltas.add(telaTempoVolta);
         painelVoltas.add(telaTempoTotal);
+        
+        painelVoltas.add(txtNumeroVolta2);
+        painelVoltas.add(txtTempoVolta2);
+        painelVoltas.add(txtTempoTotal2);
+
+        painelVoltas.add(telaNumeroVolta2);
+        painelVoltas.add(telaTempoVolta2);
+        painelVoltas.add(telaTempoTotal2);
 
         janela.add(painelTempo);
         janela.add(painelBotoes);
         janela.add(painelVoltas);
     }
 
-    public TextField getTelaMinutos() {
-        return telaMinutos;
-    }
-
-    public TextField getTelaSegundos() {
-        return telaSegundos;
-    }
-
-    public TextField getTelaMilesimos() {
-        return telaMilesimos;
+    public TextField getTelaTempo() {
+        return telaTempo;
     }
 
     public TextField getTelaNumeroVolta() {
@@ -141,6 +143,18 @@ public class Main extends WindowAdapter implements ActionListener {
         return telaTempoTotal;
     }
 
+    public TextField getTelaNumeroVolta2() {
+        return telaNumeroVolta2;
+    }
+    
+    public TextField getTelaTempoVolta2() {
+        return telaTempoVolta2;
+    }
+    
+    public TextField getTelaTempoTotal2() {
+        return telaTempoTotal2;
+    }
+
     public void mostraAgenda() {
         janela.setVisible(true);
     }
@@ -149,7 +163,10 @@ public class Main extends WindowAdapter implements ActionListener {
         if (e.getSource() == iniciar) {
             if (cronometro == null || !cronometro.isRunning()) {
                 cronometro = new Cronometro();
+                dados = new Dados();
+
                 cronometro.setMain(this);
+                cronometro.setEnvia(dados);
                 cronometro.start();
             }
         } else if (e.getSource() == parar) {
@@ -164,7 +181,7 @@ public class Main extends WindowAdapter implements ActionListener {
 	}
 
     public static void main(String[] args) {
-        Main agenda = new Main();
-        agenda.mostraAgenda();
+        Main inicio = new Main();
+        inicio.mostraAgenda();
     }
 }

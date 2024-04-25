@@ -5,21 +5,26 @@ public class Cronometro extends Thread {
 
     private int minutos;
     private int segundos;
-    private int milesimos;
+    private int centesimos;
 
     private boolean running;
 
     private Main main;
+    private Dados envia;
 
     public Cronometro() {
         minutos = 0;
         segundos = 0;
-        milesimos = 0;
+        centesimos = 0;
         running = true;
     }
 
     public void setMain(Main main) {
         this.main = main;
+    }
+
+    public void setEnvia(Dados envia) {
+        this.envia = envia;
     }
 
     public int getNumeroVolta() {
@@ -36,23 +41,18 @@ public class Cronometro extends Thread {
 
     @Override
     public void run() {
+        zerarVolta();
+        long tempoInicial = System.currentTimeMillis();
         while (running) {
             try {
-                Thread.sleep(10);
-                milesimos++;
-
-                if (milesimos == 100) {
-                    milesimos = 0;
-                    segundos++;
-
-                    if (segundos == 60) {
-                        segundos = 0;
-                        minutos++;
-                    }
-                }
+                long tempoDecorrido = System.currentTimeMillis() - tempoInicial;
+                centesimos = (int) (tempoDecorrido % 100);
+                segundos = (int) ((tempoDecorrido / 1000) % 60);
+                minutos = (int) (tempoDecorrido / (60 * 1000));
 
                 atualizarTela();
 
+                Thread.sleep(Math.max(0, 10 - (System.currentTimeMillis() - tempoInicial - tempoDecorrido)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -68,37 +68,64 @@ public class Cronometro extends Thread {
     }
 
     public void reset() {
-        // minutos = 0;
-        // segundos = 0;
-        // milesimos = 0;
         registrarVolta();
     }
 
     private void registrarVolta() {
         numeroVolta++;
-        tempoVolta = (minutos * 60 * 100 + segundos * 100 + milesimos) - tempoTotal;
+        tempoVolta = (minutos * 60 * 100 + segundos * 100 + centesimos) - tempoTotal;
         tempoTotal += tempoVolta;
+        atualizarVolta();
     }  
 
     private void atualizarTela() {
-        if (main != null && main.getTelaMinutos() != null &&
-            main.getTelaSegundos() != null && main.getTelaMilesimos() != null &&
+        if (main != null && main.getTelaTempo() != null &&
             main.getTelaNumeroVolta() != null && main.getTelaTempoVolta() != null &&
             main.getTelaTempoTotal() != null) {
     
-            main.getTelaMinutos().setText(String.format("%02d", minutos));
-            main.getTelaSegundos().setText(String.format("%02d", segundos));
-            main.getTelaMilesimos().setText(String.format("%02d", milesimos));
+            main.getTelaTempo().setText(String.format("%02d:%02d.%02d", minutos, segundos, centesimos));
+        }
+    }
+
+    private void zerarVolta() {
+        main.getTelaNumeroVolta().setText("");
+        main.getTelaTempoVolta().setText("");
+        main.getTelaTempoTotal().setText("");
+        main.getTelaNumeroVolta2().setText("");
+        main.getTelaTempoVolta2().setText("");
+        main.getTelaTempoTotal2().setText("");
+    }
+
+    public String getVolta1() {
+        return main.getTelaTempoVolta().getText();
+    }
+
+    public String getVolta2() {
+        return main.getTelaTempoVolta2().getText();
+    }
+
+    public String getTotal() {
+        return main.getTelaTempoTotal2().getText();
+    }
+
+    private void atualizarVolta() {
+        if (numeroVolta == 1) {
             main.getTelaNumeroVolta().setText(Integer.toString(numeroVolta));
             main.getTelaTempoVolta().setText(formatarTempo(tempoVolta));
             main.getTelaTempoTotal().setText(formatarTempo(tempoTotal));
+        } else if (numeroVolta == 2) {
+            stopCronometro();
+            main.getTelaNumeroVolta2().setText(Integer.toString(numeroVolta));
+            main.getTelaTempoVolta2().setText(formatarTempo(tempoVolta));
+            main.getTelaTempoTotal2().setText(formatarTempo(tempoTotal));
+            envia.enviarDados(this);
         }
     }
     
     private String formatarTempo(int tempo) {
         int min = tempo / (60 * 100);
         int sec = (tempo / 100) % 60;
-        int mil = tempo % 100;
-        return String.format("%02d:%02d:%02d", min, sec, mil);
+        int cent = tempo % 100;
+        return String.format("%02d:%02d.%02d", min, sec, cent);
     }    
-}    
+}
