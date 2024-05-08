@@ -1,15 +1,22 @@
 import java.awt.*;
 import java.awt.event.*;
 
-public class Main extends WindowAdapter implements ActionListener {
+import javax.swing.*;
+
+public class Main extends WindowAdapter implements ActionListener, KeyListener {
     private Frame janela;
     private Panel painelTempo, painelBotoes, painelVoltas;
     private Label txtNumeroVolta, txtTempoVolta, txtTempoTotal, txtNumeroVolta2, txtTempoVolta2, txtTempoTotal2;
     private TextField telaTempo, telaNumeroVolta, telaTempoVolta, telaTempoTotal, telaNumeroVolta2, telaTempoVolta2, telaTempoTotal2;
     private Button iniciar, volta, parar;
 
+    private boolean isRedPaneVisible = false;
+
     private Cronometro cronometro;
     private Dados dados;
+
+    public final String RED_PAGE = "red page";
+    public final String WHITE_PAGE = "white page";
 
     public Main() {
         janela = new Frame();
@@ -17,6 +24,7 @@ public class Main extends WindowAdapter implements ActionListener {
         janela.setSize(500, 300);
         janela.setBackground(new Color(250, 250, 250));
         janela.setLayout(null);
+        janela.addWindowListener(this);
 
         painelTempo = new Panel();
         painelTempo.setSize(480, 100);
@@ -38,10 +46,11 @@ public class Main extends WindowAdapter implements ActionListener {
 
         telaTempo = new TextField(10);
         telaTempo.setBackground(new Color(0, 0, 0));
-        telaTempo.setBounds(188, 55, 105, 40);
+        telaTempo.setBounds(188, 55,105, 40);
         telaTempo.setFont(new java.awt.Font("Arial", Font.PLAIN, 26));
-        telaTempo.setForeground(Color.RED);
         telaTempo.setText("00:00.00");
+        telaTempo.setForeground(Color.RED);
+        telaTempo.setEditable(false);
 
         painelTempo.add(telaTempo);
 
@@ -86,6 +95,10 @@ public class Main extends WindowAdapter implements ActionListener {
         telaTempoVolta = new TextField(10);
         telaTempoTotal = new TextField(10);
 
+        telaNumeroVolta.setEditable(false);
+        telaTempoVolta.setEditable(false);
+        telaTempoTotal.setEditable(false);
+
         txtNumeroVolta.setBounds(40, 20, 120, 20);
         txtTempoVolta.setBounds(180, 20, 120, 20);
         txtTempoTotal.setBounds(320, 20, 120, 20);
@@ -97,6 +110,10 @@ public class Main extends WindowAdapter implements ActionListener {
         telaNumeroVolta2 = new TextField(10);
         telaTempoVolta2 = new TextField(10);
         telaTempoTotal2 = new TextField(10);
+
+        telaNumeroVolta2.setEditable(false);
+        telaTempoVolta2.setEditable(false);
+        telaTempoTotal2.setEditable(false);
 
         txtNumeroVolta2.setBounds(40, 70, 120, 20);
         txtTempoVolta2.setBounds(180, 70, 120, 20);
@@ -125,7 +142,18 @@ public class Main extends WindowAdapter implements ActionListener {
         janela.add(painelTempo);
         janela.add(painelBotoes);
         janela.add(painelVoltas);
+
+        janela.addKeyListener(this);
+        janela.getKeyListeners();
+        janela.setFocusable(true);
+        janela.requestFocusInWindow();
     }
+
+    public void keyPressed(KeyEvent e) {}
+
+    public void keyReleased(KeyEvent e) {}
+
+    public void keyTyped(KeyEvent e) {}
 
     public TextField getTelaTempo() {
         return telaTempo;
@@ -179,6 +207,10 @@ public class Main extends WindowAdapter implements ActionListener {
             }
         }
 	}
+
+    public void windowClosing(WindowEvent e) {
+        System.exit(0);
+    }
 
     public static void main(String[] args) {
         Main inicio = new Main();

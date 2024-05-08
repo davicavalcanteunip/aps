@@ -76,7 +76,7 @@ public class Cronometro extends Thread {
         tempoVolta = (minutos * 60 * 100 + segundos * 100 + centesimos) - tempoTotal;
         tempoTotal += tempoVolta;
         atualizarVolta();
-    }  
+    }    
 
     private void atualizarTela() {
         if (main != null && main.getTelaTempo() != null &&
