@@ -334,6 +334,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener {
             cronometro.resetarCronometro();
         } else if (e.getSource() == verRanking) {
             ranking = new Ranking();
+            ranking.mostraJanela();
         }
 
         janela.requestFocusInWindow();

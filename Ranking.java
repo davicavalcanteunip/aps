@@ -33,8 +33,6 @@ public class Ranking extends WindowAdapter implements ActionListener {
         painelRanking = new JPanel();
         painelRanking.setLayout(new BorderLayout());
         janela.add(painelRanking, BorderLayout.CENTER);
-
-        janela.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -63,6 +61,10 @@ public class Ranking extends WindowAdapter implements ActionListener {
             painelRanking.revalidate();
             painelRanking.repaint();
         }
+    }
+
+    public void mostraJanela() {
+        janela.setVisible(true);
     }
 
     public void windowClosed(WindowEvent e) {}
