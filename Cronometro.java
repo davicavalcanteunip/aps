@@ -16,6 +16,7 @@ public class Cronometro extends Thread {
         minutos = 0;
         segundos = 0;
         centesimos = 0;
+
         running = true;
     }
 
@@ -49,9 +50,7 @@ public class Cronometro extends Thread {
                 centesimos = (int) (tempoDecorrido % 100);
                 segundos = (int) ((tempoDecorrido / 1000) % 60);
                 minutos = (int) (tempoDecorrido / (60 * 1000));
-
                 atualizarTela();
-
                 Thread.sleep(Math.max(0, 10 - (System.currentTimeMillis() - tempoInicial - tempoDecorrido)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -82,7 +81,6 @@ public class Cronometro extends Thread {
         if (main != null && main.getTelaTempo() != null &&
             main.getTelaNumeroVolta() != null && main.getTelaTempoVolta() != null &&
             main.getTelaTempoTotal() != null) {
-    
             main.getTelaTempo().setText(String.format("%02d:%02d.%02d", minutos, segundos, centesimos));
         }
     }
@@ -94,6 +92,23 @@ public class Cronometro extends Thread {
         main.getTelaNumeroVolta2().setText("");
         main.getTelaTempoVolta2().setText("");
         main.getTelaTempoTotal2().setText("");
+    }
+
+    private void limparEquipe() {
+        main.getTelaEquipe().setText("");
+        main.getTelaPiloto().setText("");
+    }
+
+    private void limparTempo() {
+        main.getTelaTempo().setText("00:00:00");
+    }
+
+    public String getEquipe() {
+        return main.getTelaEquipe().getText();
+    }
+
+    public String getPiloto() {
+        return main.getTelaPiloto().getText();
     }
 
     public String getVolta1() {
@@ -122,10 +137,17 @@ public class Cronometro extends Thread {
         }
     }
     
-    private String formatarTempo(int tempo) {
-        int min = tempo / (60 * 100);
-        int sec = (tempo / 100) % 60;
-        int cent = tempo % 100;
+    private String formatarTempo(long tempo) {
+        long min = tempo / (60 * 100);
+        long sec = (tempo / 100) % 60;
+        long cent = tempo % 100;
         return String.format("%02d:%02d.%02d", min, sec, cent);
-    }    
+    }
+
+
+    public void resetarCronometro() {
+        zerarVolta();
+        limparEquipe();
+        limparTempo();
+    }
 }
