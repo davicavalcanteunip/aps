@@ -70,6 +70,8 @@ public class Ranking extends WindowAdapter implements ActionListener, KeyListene
             painelRanking.add(scrollPane);
             painelRanking.revalidate();
             painelRanking.repaint();
+
+            janela.requestFocusInWindow();
         }
     }
 
