@@ -260,7 +260,10 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener {
             String textoSeguranca = "Não é permitido tirar print dessa tela!";
             StringSelection selection = new StringSelection(textoSeguranca);
             clipboard.setContents(selection, null);
-            janela.setState(Frame.ICONIFIED);
+            if (ranking != null) {
+                ranking.minimizarJanelaRanking();
+            }
+            minimizarJanelaMain();
         }
     }
 
@@ -302,6 +305,10 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener {
         return telaTempoTotal2;
     }
 
+    public void minimizarJanelaMain() {
+        janela.setState(Frame.ICONIFIED);
+    }
+
     public void mostraJanela() {
         janela.setVisible(true);
     }
@@ -336,6 +343,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener {
         } else if (e.getSource() == verRanking) {
             ranking = new Ranking();
             ranking.mostraJanela();
+            ranking.setMain(this);
         }
 
         janela.requestFocusInWindow();

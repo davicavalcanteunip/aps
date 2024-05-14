@@ -15,6 +15,8 @@ public class Ranking extends WindowAdapter implements ActionListener, KeyListene
     private JTable tabela;
     private JScrollPane scrollPane;
 
+    private Main main;
+
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     Clipboard clipboard = toolkit.getSystemClipboard();
 
@@ -68,8 +70,6 @@ public class Ranking extends WindowAdapter implements ActionListener, KeyListene
             painelRanking.add(scrollPane);
             painelRanking.revalidate();
             painelRanking.repaint();
-
-            janela.requestFocusInWindow();
         }
     }
 
@@ -80,12 +80,20 @@ public class Ranking extends WindowAdapter implements ActionListener, KeyListene
             String textoSeguranca = "Não é permitido tirar print dessa tela!";
             StringSelection selection = new StringSelection(textoSeguranca);
             clipboard.setContents(selection, null);
-            janela.setState(Frame.ICONIFIED);
-            janela.requestFocusInWindow();
+            minimizarJanelaRanking();
         }
     }
 
+    public void minimizarJanelaRanking() {
+        janela.setState(Frame.ICONIFIED);
+        this.main.minimizarJanelaMain();
+    }
+
     public void keyTyped(KeyEvent e) {}
+
+    public void setMain(Main main) {
+        this.main = main;
+    }
 
     public void mostraJanela() {
         janela.setVisible(true);
@@ -94,4 +102,3 @@ public class Ranking extends WindowAdapter implements ActionListener, KeyListene
 
     public void windowClosed(WindowEvent e) {}
 }
-
