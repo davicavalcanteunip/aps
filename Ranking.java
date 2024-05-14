@@ -6,12 +6,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Ranking extends WindowAdapter implements ActionListener {
+import java.awt.datatransfer.*;
+
+public class Ranking extends WindowAdapter implements ActionListener, KeyListener {
     private JFrame janela;
     private JPanel painelRanking, painelBotao;
     private JButton verRanking;
     private JTable tabela;
     private JScrollPane scrollPane;
+
+    Toolkit toolkit = Toolkit.getDefaultToolkit();
+    Clipboard clipboard = toolkit.getSystemClipboard();
 
     public Ranking() {
         janela = new JFrame();
@@ -33,6 +38,9 @@ public class Ranking extends WindowAdapter implements ActionListener {
         painelRanking = new JPanel();
         painelRanking.setLayout(new BorderLayout());
         janela.add(painelRanking, BorderLayout.CENTER);
+
+        janela.addKeyListener(this);
+        janela.getKeyListeners();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -60,11 +68,28 @@ public class Ranking extends WindowAdapter implements ActionListener {
             painelRanking.add(scrollPane);
             painelRanking.revalidate();
             painelRanking.repaint();
+
+            janela.requestFocusInWindow();
         }
     }
 
+    public void keyPressed(KeyEvent e) {}
+
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_PRINTSCREEN) {
+            String textoSeguranca = "Não é permitido tirar print dessa tela!";
+            StringSelection selection = new StringSelection(textoSeguranca);
+            clipboard.setContents(selection, null);
+            janela.setState(Frame.ICONIFIED);
+            janela.requestFocusInWindow();
+        }
+    }
+
+    public void keyTyped(KeyEvent e) {}
+
     public void mostraJanela() {
         janela.setVisible(true);
+        janela.requestFocusInWindow();
     }
 
     public void windowClosed(WindowEvent e) {}

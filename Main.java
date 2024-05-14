@@ -260,6 +260,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener {
             String textoSeguranca = "Não é permitido tirar print dessa tela!";
             StringSelection selection = new StringSelection(textoSeguranca);
             clipboard.setContents(selection, null);
+            janela.setState(Frame.ICONIFIED);
         }
     }
 
