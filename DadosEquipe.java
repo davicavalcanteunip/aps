@@ -17,9 +17,12 @@ public class DadosEquipe {
         this.total = total;
     }
 
+    // Retorna em tempo os dados do banco de dados que era Strings
     public long getTotalMillis() {
+        // Instancia a classe SimpleDateFormat especificando o formato que deve ser esperado por ela
         SimpleDateFormat sdf = new SimpleDateFormat("mm:ss.SSS");
         try {
+            // Converte para date a String de tempo
             Date tempoTotalDate = sdf.parse(total);
             return tempoTotalDate.getTime();
         } catch (ParseException e) {

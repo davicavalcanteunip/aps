@@ -47,14 +47,22 @@ public class Ranking extends WindowAdapter implements ActionListener, KeyListene
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == verRanking) {
+            // dadosRanking é uma instancia da classe DadosRanking
             DadosRanking dadosRanking = new DadosRanking();
+
+            // List<DadosEquipe> resultados é uma lista retornada pelo método buscarDados da classe DadosRanking
             List<DadosEquipe> resultados = dadosRanking.buscarDados();
 
+            // Colections trabalha para operar e retornar e Coleções =>  Nesse caso, retorna ordenadamente do menor tempo total para o maior
             Collections.sort(resultados, Comparator.comparingLong(DadosEquipe::getTotalMillis));
 
+            // Array das opções que vão nas colunas da tabela
             String[] colunas = {"Equipe", "Piloto", "Volta 1", "Volta 2", "Total"};
+
+            // Cria uma matriz que receberá os dados a serem inseridos na tabela
             String[][] dados = new String[resultados.size()][5];
 
+            // Loop que percorre sobre as posições da matriz e insere os dados
             for (int i = 0; i < resultados.size(); i++) {
                 DadosEquipe equipe = resultados.get(i);
                 dados[i][0] = equipe.getEquipe();
@@ -64,13 +72,21 @@ public class Ranking extends WindowAdapter implements ActionListener, KeyListene
                 dados[i][4] = equipe.getTotal();
             }
 
+            // Cria nova tabela
             tabela = new JTable(dados, colunas);
+
+            // Insere a tabela dentro de um painel de scroll
             scrollPane = new JScrollPane(tabela);
+
+            // Renderiza novamente o painel com os dados da tabela
             painelRanking.removeAll();
             painelRanking.add(scrollPane);
             painelRanking.revalidate();
             painelRanking.repaint();
 
+            // Adiciona escutador de teclas a tabela, para impedir o print da tela mesmo com o foco na tabela
+            tabela.addKeyListener(this);
+            tabela.getKeyListeners();
             janela.requestFocusInWindow();
         }
     }
@@ -78,6 +94,7 @@ public class Ranking extends WindowAdapter implements ActionListener, KeyListene
     public void keyPressed(KeyEvent e) {}
 
     public void keyReleased(KeyEvent e) {
+        // Impede que vaze informações dos dados da tela
         if (e.getKeyCode() == KeyEvent.VK_PRINTSCREEN) {
             String textoSeguranca = "Não é permitido tirar print dessa tela!";
             StringSelection selection = new StringSelection(textoSeguranca);

@@ -51,7 +51,7 @@ public class Cronometro extends Thread {
                 segundos = (int) ((tempoDecorrido / 1000) % 60);
                 minutos = (int) (tempoDecorrido / (60 * 1000));
                 atualizarTela();
-                Thread.sleep(Math.max(0, 10 - (System.currentTimeMillis() - tempoInicial - tempoDecorrido)));
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
